@@ -6,6 +6,7 @@ class ChessLaTeX:
     def __init__(self, moves):
         self.moves = moves
         self.fen = self.generate_fen()
+        self.is_valid = self.fen is not False
 
     def draw_chessboard(self):
         # Create document and use package chessboard
@@ -26,15 +27,23 @@ class ChessLaTeX:
         # Create a new game and play moves
         game = chess.Board()
         for move in self.moves:
-            game.push_san(move)
+            try:
+                game.push_san(move)
+            except ValueError:
+                return False
         # Return FEN notation
         return game.fen()
 
-
 if __name__ == "__main__":
-    # Example moves 1.e4 c5 2.Nf3
-    chess_latex = ChessLaTeX(["e4", "c5", "Nf3"])
+    # Read in games/current_game.csv (which contains one column of moves)
+    with open('games/current_game.csv', 'r') as f:
+        moves = f.read().splitlines()
+    # Create ChessLaTeX object
+    chess_latex = ChessLaTeX(moves)
+    #chess_latex = ChessLaTeX(["e4", "c5", "Nf3"])
     # First move is 1.e4
-    chess_latex.draw_chessboard()
+    #print(chess_latex.is_valid)
+    #chess_latex.draw_chess_animation()
+    #chess_latex.draw_chessboard()
 
 
