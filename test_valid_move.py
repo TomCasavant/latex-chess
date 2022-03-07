@@ -1,11 +1,6 @@
 # Use pytest to check if move is valid
 
 # Import main.py from above directory
-import sys
-
-sys.path.append('')
-
-# Import main.py from above directory
 from main import ChessLaTeX
 
 
