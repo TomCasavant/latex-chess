@@ -1,13 +1,28 @@
 name: automerge
 on:
-  repository_dispatch:
-    types: [pr-approved]
-
+  pull_request:
+    types:
+      - labeled
+      - unlabeled
+      - synchronize
+      - opened
+      - edited
+      - ready_for_review
+      - reopened
+      - unlocked
+  pull_request_review:
+    types:
+      - submitted
+  check_suite:
+    types:
+      - completed
+  status: {}
 jobs:
   automerge:
     runs-on: ubuntu-latest
     steps:
       - name: automerge
+        if: github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]' || github.actor == 'TomCasavant' || github.actor == 'github-actions'
         uses: "pascalgn/automerge-action@v0.14.3"
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"

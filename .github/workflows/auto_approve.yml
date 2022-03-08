@@ -1,8 +1,8 @@
 name: Auto approve
 
 on:
-  repository_dispatch:
-    types: [board-regenerated]
+  pull_request:
+    types: [labeled]
 
 jobs:
   auto-approve:
@@ -12,11 +12,4 @@ jobs:
         if: github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]' || github.actor == 'TomCasavant' || github.actor == 'github-actions'
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
-      # if approved, run the action
-      - name: Approved PR Dispatch
-        uses: peter-evans/repository-dispatch@v1
-        if: github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]' || github.actor == 'TomCasavant' || github.actor == 'github-actions'
-        with:
-          token: ${{ secrets.REPO_ACCESS_TOKEN }}
-          repository: ${{ github.repository }}
-          event-type: pr-approved
+
