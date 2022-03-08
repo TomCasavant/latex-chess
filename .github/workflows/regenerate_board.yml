@@ -1,0 +1,35 @@
+name: CI
+on:
+  push:
+    branches: [ make-move ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8 #install the python needed
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: execute py script # run the run.py to get the latest data
+        run: |
+          python main.py
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "[automated] Regenerate text/pdf for chessboard"
+      - uses: repo-sync/pull-request@v2
+        name: Create Pull Request
+        with:
+          destination_branch: "master"
+          pr_title: "[automated] Update chessboard"
+          pr_body: "Automated PR generated when a move has been made"
+          pr_label: "automerge"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
