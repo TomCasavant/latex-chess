@@ -16,6 +16,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y texlive-latex-base texlive-latex-extra
+          tlmgr init-usertree
           tlmgr install skak
           
       - name: setup python
