@@ -1,9 +1,7 @@
 name: CI
 on:
-  push:
-    branches: [ make-move ]
-
-  workflow_dispatch:
+  repository_dispatch:
+    types: [move-valid]
 
 jobs:
   build:
@@ -11,6 +9,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: 'make-move'
       - name: setup python
         uses: actions/setup-python@v2
         with:
