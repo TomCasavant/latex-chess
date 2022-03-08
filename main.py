@@ -40,10 +40,6 @@ if __name__ == "__main__":
         moves = f.read().splitlines()
     # Create ChessLaTeX object
     chess_latex = ChessLaTeX(moves)
-    #chess_latex = ChessLaTeX(["e4", "c5", "Nf3"])
-    # First move is 1.e4
-    #print(chess_latex.is_valid)
-    #chess_latex.draw_chess_animation()
-    #chess_latex.draw_chessboard()
+    chess_latex.draw_chessboard()
 
 

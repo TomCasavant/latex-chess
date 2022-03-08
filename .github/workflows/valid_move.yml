@@ -1,8 +1,7 @@
 name: Chess Move Allowed?
 on:
-  pull_request:
-    branches:
-      - master
+  push:
+    branches: [ make-move ]
 
 jobs:
   build:
@@ -19,3 +18,11 @@ jobs:
           pip install -r requirements.txt
       - name: Test with pytest
         run: pytest -vv
+      # If the test is successful
+      - if: $? -eq 0
+        name: Move is valid (Repository Dispatch)
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          repository: ${{ github.repository }}
+          event-type: move-valid
