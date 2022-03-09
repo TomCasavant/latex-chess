@@ -34,6 +34,7 @@ jobs:
       - uses: repo-sync/pull-request@v2
         name: Create Pull Request
         with:
+          source_branch: "make-move"
           destination_branch: "master"
           pr_title: "[automated] Update chessboard"
           pr_body: "Automated PR generated when a move has been made"
