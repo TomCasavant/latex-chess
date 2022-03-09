@@ -1,4 +1,4 @@
-name: CI
+name: Generate Board
 on:
   repository_dispatch:
     types: [move-valid]
@@ -15,7 +15,8 @@ jobs:
       - name: Install pdflatex
         run: |
           sudo apt-get update
-          sudo apt-get install -y texlive-latex-base texlive-latex-extra
+          sudo apt-get install -y texlive-latex-base texlive-latex-extra texlive-games
+          
       - name: setup python
         uses: actions/setup-python@v2
         with:
