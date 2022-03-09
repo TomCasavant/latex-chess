@@ -27,7 +27,7 @@ jobs:
           pip install -r requirements.txt
       - name: execute py script # run the run.py to get the latest data
         run: |
-          python main.py
+          python main.py "generate"
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "[automated] Regenerate text/pdf for chessboard"
