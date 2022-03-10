@@ -38,10 +38,21 @@ jobs:
           commit_message: "[automated] Regenerate text/pdf for chessboard"
       - uses: repo-sync/pull-request@v2
         name: Create Pull Request
+        id: pull-request
         with:
           source_branch: "make-move"
           destination_branch: "master"
           pr_title: "[automated] Update chessboard"
           pr_body: "Automated PR generated when a move has been made"
-          pr_label: "automerge"
+          pr_label: "auto-approve"
           github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Move is valid (Repository Dispatch)
+        uses: peter-evans/repository-dispatch@v1
+        # If test was successful
+        if: steps.test.outcome == 'success'
+        with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          repository: ${{ github.repository }}
+          event-type: finished-move
+          client-payload: '{"pr": "${{steps.pull-request.outputs.pr_number}}"}'
+
