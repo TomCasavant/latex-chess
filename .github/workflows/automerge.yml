@@ -3,10 +3,10 @@ on:
   repository_dispatch:
     types: [approved]
 jobs:
-  autoapprove:
+  automerge:
     runs-on: ubuntu-latest
     steps:
-      - name: auto-approve
+      - name: autonerge
         uses: "pascalgn/automerge-action@v0.14.3"
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
