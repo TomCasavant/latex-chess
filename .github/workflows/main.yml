@@ -45,7 +45,7 @@ jobs:
           destination_branch: "master"
           pr_title: "[automated] Update chessboard"
           pr_body: "Automated PR generated when a move has been made"
-          pr_label: "auto-approve"
+          pr_label: "automerge"
           github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Move is valid (Repository Dispatch)
         uses: peter-evans/repository-dispatch@v1
