@@ -52,6 +52,6 @@ jobs:
         with:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           repository: ${{ github.repository }}
-          event-type: finished-move
+          event-type: approved
           client-payload: '{"pr": "${{steps.pull-request.outputs.pr_number}}"}'
 
