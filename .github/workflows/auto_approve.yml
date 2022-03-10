@@ -20,7 +20,7 @@ jobs:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           repository: ${{ github.repository }}
           event-type: approved
-          client-payload: '{"pr": "${{ github.event.client_payload.pr }}"'
+          client-payload: '{"pr": "${{ github.event.client_payload.pr }}"}'
 
 
 
