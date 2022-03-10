@@ -1,0 +1,47 @@
+name: Make a random move on a CRON Schedule
+
+on:
+  schedule:
+    # Every 11 minutes
+    - cron: '*/11 * * * *'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Make-Move
+        uses: actions/checkout@v2
+        with:
+          ref: 'make-move'
+      - name: Install LaTeX Libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y texlive-latex-base texlive-latex-extra texlive-games
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8 #install the python needed
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run Python Script to Generate Random Move # run the run.py to get the latest data
+        run: |
+          python main.py "move"
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "[automated] Make random move"
+      - name: Regenerate the board
+        run: |
+          python main.py "generate"
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "[automated] Regenerate text/pdf for chessboard"
+      - uses: repo-sync/pull-request@v2
+        name: Create Pull Request
+        with:
+          source_branch: "make-move"
+          destination_branch: "master"
+          pr_title: "[automated] Update chessboard"
+          pr_body: "Automated PR generated when a move has been made"
+          pr_label: "automerge"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
