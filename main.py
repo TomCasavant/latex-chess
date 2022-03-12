@@ -1,3 +1,4 @@
+import os
 import random
 
 import pylatex
@@ -47,7 +48,16 @@ class ChessLaTeX:
         move = random.choice(list(legal_moves))
         # Save the move to the csv file
         with open('games/current_game.csv', 'a') as f:
-            f.write(f"\n{move}")
+            # if game is empty, just write the move otherwise add newline
+            if os.stat('games/current_game.csv').st_size == 0:
+                f.write(f"{move}")
+            else:
+                f.write(f"\n{move}")
+
+
+
+
+
 
 
 if __name__ == "__main__":
@@ -60,6 +70,24 @@ if __name__ == "__main__":
     chess_latex = ChessLaTeX(moves)
     choice = sys.argv[1]
     if choice == 'move':
+        if chess_latex.game.is_game_over():
+            # Move current_game.csv to game{number}.csv
+            # Create new current_game.csv
+            # Generate a new game
+            # Save the new game to current_game.csv
+            src = 'games/current_game.csv'
+            # Seach games/ for the most recent number
+            # If there are no games, then number = 1
+            # If there are games, then number = the most recent number + 1
+            number = 1
+            for file in os.listdir('games/'):
+                if file.startswith('game'):
+                    number = int(file[4:]) + 1
+            dst = f'games/game{number}.csv'
+            os.rename(src, dst)
+            with open('games/current_game.csv', 'w') as f:
+                f.write('')
+            chess_latex = ChessLaTeX([])
         chess_latex.make_random_move()
     else:
         chess_latex.draw_chessboard()
