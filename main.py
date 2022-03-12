@@ -3,6 +3,7 @@ import random
 
 import pylatex
 from pylatex import NoEscape
+from pdf2image import convert_from_path
 import chess
 import sys
 
@@ -26,6 +27,13 @@ class ChessLaTeX:
         # Save tex file
         doc.generate_tex()
         doc.generate_pdf('chessboard_display', compiler='pdflatex')
+        # Convert pdf to png and add to README.md specify output name as chessboard.png
+        images = convert_from_path('chessboard_display.pdf')
+        for image in images:
+            # Crop the image to just show the chessboard
+            image = image.crop(box=(467, 400, 912, 847))
+            image.save('chessboard.png', 'PNG')
+
 
     # Generate FEN notation from list of moves
     def get_game(self):
