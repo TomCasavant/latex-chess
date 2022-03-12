@@ -16,7 +16,7 @@ jobs:
       - name: Install LaTeX Libraries
         run: |
           sudo apt-get update
-          sudo apt-get install -y texlive-latex-base texlive-latex-extra texlive-games
+          sudo apt-get install -y texlive-latex-base texlive-latex-extra texlive-games poppler-utils
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
