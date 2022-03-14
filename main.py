@@ -90,7 +90,7 @@ if __name__ == "__main__":
             number = 1
             for file in os.listdir('games/'):
                 if file.startswith('game'):
-                    number = int(file[4:]) + 1
+                    number = int(file[4:5]) + 1
             dst = f'games/game{number}.csv'
             os.rename(src, dst)
             with open('games/current_game.csv', 'w') as f:
